@@ -1,0 +1,629 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Production Design System Variables */
+:root {
+  color-scheme: dark;
+  --bg-app: #0a0b14;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg-app: #f8fafc;
+  --gradient-1: hsla(210, 40%, 98%, 1);
+  --gradient-2: hsla(217, 100%, 65%, 0.45);
+  --gradient-3: hsla(250, 100%, 65%, 0.35);
+}
+
+[data-theme="dark"] {
+  /* Dynamic Backgrounds */
+  --bg-app: #0a0b14;
+  --gradient-1: hsla(253, 16%, 7%, 1);
+  --gradient-2: hsla(225, 75%, 48%, 0.3);
+  --gradient-3: hsla(339, 75%, 48%, 0.25);
+  /* Deep Space Navy */
+  --bg-surface: #16181d;
+  --bg-glass: rgba(15, 17, 26, 0.45);
+  --bg-glass-heavy: rgba(10, 12, 18, 0.7);
+
+  /* Typography Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+
+  /* Borders & Dividers */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-highlight: rgba(255, 255, 255, 0.15);
+
+  /* Brand Accents */
+  --accent-primary: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.6);
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+
+  /* Component Specifics (Dark) */
+  --glass-button-bg: rgba(255, 255, 255, 0.05);
+  --glass-button-hover-bg: rgba(255, 255, 255, 0.1);
+  --glass-button-text: #d1d5db;
+  --glass-button-hover-text: #ffffff;
+  --glass-button-border: rgba(255, 255, 255, 0.05);
+  --glass-button-hover-border: rgba(255, 255, 255, 0.2);
+
+  --input-bg: rgba(0, 0, 0, 0.2);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-text: #ffffff;
+  --input-placeholder: #4b5563;
+  --input-focus-bg: rgba(0, 0, 0, 0.4);
+  --input-focus-border: rgba(99, 102, 241, 0.5);
+
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --dock-bg: rgba(10, 12, 18, 0.2);
+  --dock-border: rgba(255, 255, 255, 0.1);
+
+  --control-button-bg: #1e293b;
+  --control-button-text: #9ca3af;
+  --control-button-border: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] {
+  /* Dynamic Backgrounds */
+  --bg-app: #f8fafc;
+  /* Soft Slate White */
+  --bg-surface: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.45);
+  --bg-glass-heavy: rgba(255, 255, 255, 0.75);
+
+  /* Typography Colors */
+  --text-primary: #0f172a;
+  /* Slate 900 */
+  --text-secondary: #475569;
+  /* Slate 600 */
+  /* Slate 500 for better visibility */
+  --text-tertiary: #64748b;
+
+  /* Borders & Dividers */
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --border-glass-highlight: rgba(0, 0, 0, 0.15);
+
+  /* Brand Accents */
+  --accent-primary: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.25);
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+
+  /* Component Specifics (Light) */
+  --glass-button-bg: rgba(0, 0, 0, 0.05);
+  --glass-button-hover-bg: rgba(0, 0, 0, 0.1);
+  --glass-button-text: #475569;
+  --glass-button-hover-text: #0f172a;
+  --glass-button-border: rgba(0, 0, 0, 0.05);
+  --glass-button-hover-border: rgba(0, 0, 0, 0.2);
+
+  --input-bg: rgba(255, 255, 255, 0.6);
+  --input-border: rgba(0, 0, 0, 0.1);
+  --input-text: #0f172a;
+  --input-placeholder: #94a3b8;
+  --input-focus-bg: #ffffff;
+  --input-focus-border: rgba(99, 102, 241, 0.5);
+
+  --card-shadow: rgba(0, 0, 0, 0.08);
+  --dock-bg: rgba(255, 255, 255, 0.15);
+  --dock-border: rgba(0, 0, 0, 0.1);
+
+  --control-button-bg: #ffffff;
+  --control-button-text: #64748b;
+  --control-button-border: rgba(0, 0, 0, 0.1);
+
+  --scrollbar-thumb: rgba(0, 0, 0, 0.1);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
+}
+
+@layer base {
+  html {
+    @apply transition-colors duration-300;
+    /* Ensures the root element has the theme background during route transitions */
+  }
+
+  body {
+    @apply font-sans antialiased text-[var(--text-primary)] selection:bg-indigo-500/30 overflow-x-hidden;
+    background-color: var(--bg-app);
+    background-image: 
+      radial-gradient(at 0% 0%, var(--gradient-1) 0, transparent 50%),
+      radial-gradient(at 50% 0%, var(--gradient-2) 0, transparent 50%),
+      radial-gradient(at 100% 0%, var(--gradient-3) 0, transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at var(--mouse-x, 30%) var(--mouse-y, 30%), var(--gradient-2) 0%, transparent 50%),
+      radial-gradient(circle at calc(100% - var(--mouse-x, 70%)) calc(100% - var(--mouse-y, 70%)), var(--gradient-3) 0%, transparent 50%);
+    opacity: 0.45;
+    animation: aurora-breathe 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(120px);
+    will-change: background;
+  }
+
+  [data-theme="light"] body::before {
+    opacity: 0.75;
+  }
+
+  @keyframes aurora-breathe {
+    from {
+      transform: scale(1) translate(-2%, -2%);
+    }
+    to {
+      transform: scale(1.1) translate(2%, 2%);
+    }
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(var(--border-glass) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.2;
+    animation: tech-drift 100s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes tech-drift {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 120px 120px;
+    }
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  /* Fix for system dropdowns to respect theme */
+  select {
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] select {
+    color-scheme: dark;
+  }
+
+  option {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+  }
+}
+
+@layer components {
+
+  /* Unified Glass Panels */
+  .app-glass-panel {
+    @apply backdrop-blur-2xl border transition-all duration-300;
+    background: var(--bg-glass);
+    border-color: var(--border-glass);
+    box-shadow: 0 8px 32px var(--card-shadow);
+  }
+
+  /* Floating Layout Containers (Header/Sidebar/Dock) */
+  .app-floating-dock {
+    @apply fixed backdrop-blur-3xl border transition-all duration-300 z-50;
+    background: var(--dock-bg);
+    border-color: var(--dock-border);
+    box-shadow: 0 20px 40px var(--card-shadow);
+  }
+
+  .glass-panel-dark {
+    @apply backdrop-blur-3xl border transition-all duration-300;
+    background: var(--dock-bg);
+    border-color: var(--dock-border);
+    box-shadow: 0 20px 40px var(--card-shadow);
+  }
+
+  /* Interactive Elements */
+  .app-button {
+    @apply flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border border-transparent;
+  }
+
+  .app-button-glass {
+    @apply app-button;
+    color: var(--glass-button-text);
+    background-color: var(--glass-button-bg);
+    border-color: var(--glass-button-border);
+  }
+
+  .app-button-glass:hover {
+    color: var(--glass-button-hover-text);
+    background-color: var(--glass-button-hover-bg);
+    border-color: var(--glass-button-hover-border);
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+
+  .app-button-primary {
+    @apply app-button text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40;
+  }
+
+  /* Dashboard Cards */
+  .app-card {
+    @apply app-glass-panel rounded-2xl p-6 hover:border-[var(--border-glass-highlight)] hover:shadow-2xl hover:-translate-y-1 transition-all duration-300;
+  }
+
+  /* Input Fields */
+  .app-input {
+    @apply w-full rounded-xl px-4 py-2.5 text-sm transition-all focus:outline-none;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+  }
+
+  .app-input::placeholder {
+    color: var(--input-placeholder);
+  }
+
+  .app-input:focus {
+    background-color: var(--input-focus-bg);
+    border-color: var(--input-focus-border);
+  }
+}
+
+/* React Flow Theming Overrides */
+.react-flow__node {
+  /* Only apply transitions for things like hover effects, NOT for position changes during drag */
+  transition-property: opacity, box-shadow, filter;
+  transition-duration: 300ms;
+}
+
+.react-flow__node.dragging {
+  transition: none !important;
+}
+
+/* Edge and Node layering is now handled via per-node zIndex in epc_builder.jsx */
+.react-flow__edges {
+  pointer-events: none;
+  /* Let clicks pass through empty areas */
+}
+
+.react-flow__edge {
+  pointer-events: all;
+  /* Restore clicks on actual edges */
+  cursor: pointer;
+}
+
+/* Force override of ReactFlow's strict default fast animations */
+.react-flow__edge.animated path.react-flow__edge-path {
+  animation-duration: 25s !important;
+  stroke-dasharray: 10 10 !important;
+}
+
+.react-flow__nodes {}
+
+.react-flow__node.selected {
+  @apply ring-2 ring-indigo-500 ring-offset-2 ring-offset-[#0f1115] !important;
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4) !important;
+}
+
+.printing .rule-node-label {
+  opacity: 1 !important;
+}
+
+.react-flow__controls-button {
+  @apply !rounded-lg !shadow-lg transition-all !duration-200 !m-1;
+  background-color: var(--control-button-bg) !important;
+  border-color: var(--control-button-border) !important;
+  color: var(--control-button-text) !important;
+}
+
+.react-flow__controls-button:hover {
+  @apply !bg-indigo-600 !text-white !border-indigo-500 transition-all;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.5) !important;
+}
+
+/* Scrollbar refinement */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full transition-colors;
+  background-color: var(--scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Global Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-enter {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-up-fade {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  /* Starte invisible */
+}
+
+/* Staggered Delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Tactile Active States for Buttons */
+.app-button:active {
+  transform: scale(0.96);
+}
+
+.app-card:active {
+  transform: scale(0.99);
+}
+
+/* Shimmer Animation for loading or highlight */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.05) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+/* -----------------------------------------
+   AI Workspace Premium Animations & Utilities
+   ----------------------------------------- */
+
+/* Canvas animated grid */
+.canvas-animated-bg {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  animation: canvasPan 30s linear infinite;
+}
+
+[data-theme="light"] .canvas-animated-bg {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+}
+
+@keyframes canvasPan {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 40px;
+  }
+}
+
+/* AI Generating Shimmer Overlay */
+.generating-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.generating-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(99, 102, 241, 0.2),
+    transparent
+  );
+  animation: shimmerSweep 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+  100% {
+    left: 200%;
+  }
+}
+
+/* AI Generation Preview & Progress Animations */
+.generation-halo {
+  position: absolute;
+  width: 120vw;
+  height: 120vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 60%);
+  animation: haloPulse 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 0;
+}
+
+[data-theme="dark"] .generation-halo {
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 60%);
+}
+
+@keyframes haloPulse {
+  0%, 100% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+.node-generating-glow {
+  animation: nodeGlow 2s infinite alternate !important;
+}
+
+@keyframes nodeGlow {
+  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6); }
+  100% { box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0); }
+}
+
+.animate-slide-up-fade {
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-progress-spin {
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Node progressive appear */
+.node-appear {
+  animation: nodePopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@keyframes nodePopIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Draw path animation */
+.path-draw-animated {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 1.5s ease-in-out forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Floating shadow & elevation */
+.hover-float {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-float:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* AI Pulse Outline */
+.ai-pulse-ring {
+  position: relative;
+}
+
+.ai-pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid rgba(139, 92, 246, 0.5); /* Purple-500 with opacity */
+  animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+/* Premium node glass background */
+.node-premium-glass {
+  background: var(--bg-surface);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass-highlight);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom scrollbar for Chat Sidekick */
+.chat-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 4px;
+}
+.chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}

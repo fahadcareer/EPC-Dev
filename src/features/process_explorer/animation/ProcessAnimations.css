@@ -1,0 +1,36 @@
+/* ProcessAnimations.css */
+
+/* 1. Running Bot Line (Marching Ants) for Edges */
+/* We target the SVG path within ReactFlow edges */
+.gif-recording-mode .react-flow__edge-path {
+    stroke-dasharray: 5;
+    /* Dotted look */
+    animation: none !important;
+    /* Disable CSS animation so we can control it via JS */
+}
+
+@keyframes dashdraw {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+
+/* Maintain semantic colors as borders or slight tints if needed, 
+   but user requested 'nodes be in the same colour' just 'frosted'.
+   Usage of !important is to override inline styles ReactFlow might set. 
+*/
+
+@keyframes shimmerMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
