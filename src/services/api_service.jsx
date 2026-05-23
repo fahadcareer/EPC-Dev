@@ -21,8 +21,8 @@ function getAuthHeaders(additionalHeaders = {}) {
     if (actualHeaders && typeof actualHeaders === 'object') {
         Object.entries(actualHeaders).forEach(([key, value]) => {
             // NEVER allow a header literally named 'headers'
-            // Also filter out 'responseType' as it's a fetch option, not a header
-            if (key.toLowerCase() !== 'headers' && key !== 'responseType' && value !== undefined) {
+            // Also filter out 'responseType' and 'signal' as they are fetch options, not headers
+            if (key.toLowerCase() !== 'headers' && key !== 'responseType' && key !== 'signal' && value !== undefined) {
                 headers.set(key, value);
             }
         });
@@ -81,6 +81,7 @@ export async function apiGet(endpoint, options = {}) {
             const res = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'GET',
                 headers: getAuthHeaders(options),
+                signal: options.signal,
             });
 
             // Handle 401 Unauthorized
@@ -138,6 +139,7 @@ export async function apiPost(endpoint, data = {}, options = {}) {
                 method: 'POST',
                 headers: requestHeaders,
                 body: isFormData ? data : JSON.stringify(data),
+                signal: options.signal,
             });
 
             // Handle 401 Unauthorized
@@ -201,6 +203,7 @@ export async function apiPut(endpoint, data = {}, options = {}) {
                 method: 'PUT',
                 headers: requestHeaders,
                 body: isFormData ? data : JSON.stringify(data),
+                signal: options.signal,
             });
 
             // Handle 401 Unauthorized
@@ -250,6 +253,7 @@ export async function apiDelete(endpoint, options = {}) {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders(options),
+                signal: options.signal,
             });
 
             // Handle 401 Unauthorized
